@@ -13,8 +13,8 @@ import java.util.Map;
  */
 public class Outline {
 
-	public final Map<String, String> attributes = new HashMap<>();
-	public List<Outline> subElements;
+	private final Map<String, String> attributes = new HashMap<>();
+	private List<Outline> subElements;
 	
 	public void putAttribute(String key, String value) {
 		this.attributes.put(key, value);
