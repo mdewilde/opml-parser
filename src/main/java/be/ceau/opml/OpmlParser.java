@@ -20,6 +20,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -76,7 +77,7 @@ public class OpmlParser {
 		if (input == null) {
 			throw new IllegalArgumentException("argument can not be null");
 		}
-		try (Reader reader = new InputStreamReader(input)) {
+		try (Reader reader = new InputStreamReader(input, StandardCharsets.UTF_8)) {
 			return parse(reader);
 		} catch (IOException e) {
 			throw new OpmlParseException(e);
@@ -108,13 +109,13 @@ public class OpmlParser {
 
 	private Opml extract(Reader reader) throws XmlPullParserException, IOException, OpmlParseException {
 
-		// return object
-		final Opml opml = new Opml();
-
 		final XmlPullParser xpp = newXmlPullParser(reader);
 
-		OpmlSectionHandler initHandler = new OpmlInitHandler(opml);
-		OpmlSectionHandler handler = initHandler;
+		OpmlInitHandler initHandler = new OpmlInitHandler();
+		OpmlHeadHandler headHandler = new OpmlHeadHandler();
+		OpmlBodyHandler bodyHandler = new OpmlBodyHandler();
+
+		OpmlSectionHandler<?> handler = initHandler;
 
 		final Deque<String> stack = new ArrayDeque<>();
 		boolean startedHead = false;
@@ -131,7 +132,7 @@ public class OpmlParser {
 							if (startedHead) {
 								throw new OpmlParseException("OPML documents can have only one head section");
 							}
-							handler = new OpmlHeadHandler(opml);
+							handler = headHandler;
 							startedHead = true;
 							break;
 						}
@@ -139,7 +140,7 @@ public class OpmlParser {
 							if (startedBody) {
 								throw new OpmlParseException("OPML documents can have only one body section");
 							}
-							handler = new OpmlBodyHandler(opml);
+							handler = bodyHandler;
 							startedBody = true;
 							break;
 						}
@@ -183,7 +184,7 @@ public class OpmlParser {
 			throw new OpmlParseException(String.format("XML invalid, unclosed tags %s", stack));
 		}
 
-		return opml;
+		return new Opml(initHandler.get(), headHandler.get(), bodyHandler.get());
 
 	}
 

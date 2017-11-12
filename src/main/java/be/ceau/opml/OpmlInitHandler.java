@@ -2,21 +2,15 @@ package be.ceau.opml;
 
 import org.xmlpull.v1.XmlPullParser;
 
-import be.ceau.opml.entity.Opml;
+final class OpmlInitHandler implements OpmlSectionHandler<String> {
 
-final class OpmlInitHandler implements OpmlSectionHandler {
-
-	private final Opml opml;
-
-	OpmlInitHandler(Opml opml) {
-		this.opml = opml;
-	}
+	private String version;
 
 	@Override
 	public void startTag(XmlPullParser xpp) throws OpmlParseException {
 		ValidityCheck.require(xpp, XmlPullParser.START_TAG, "opml");
-		opml.setVersion(xpp.getAttributeValue(null, "version"));
-		if (opml.getVersion() == null) {
+		version = xpp.getAttributeValue(null, "version");
+		if (version == null) {
 			throw new OpmlParseException("opml element does not have required attribute version");
 		}
 	}
@@ -29,6 +23,11 @@ final class OpmlInitHandler implements OpmlSectionHandler {
 	@Override
 	public void endTag(XmlPullParser xpp) throws OpmlParseException {
 		// do nothing
+	}
+
+	@Override
+	public String get() {
+		return version;
 	}
 
 }

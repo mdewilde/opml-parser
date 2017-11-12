@@ -80,7 +80,27 @@ public class BadSamplesTest {
 		try (Reader resourceReader = new FileReader(getClass().getResource("/badsample5.opml").getPath())) {
 			new OpmlParser().parse(resourceReader);
 		} catch (OpmlParseException e) {
-			Assert.assertTrue("message is " + e.getMessage(), e.getMessage().startsWith("opml element should not contain its own text but contains"));
+			Assert.assertTrue("message is " + e.getMessage(), e.getMessage().startsWith("element opml should not contain"));
+			throw e;
+		}
+	}
+
+	@Test(expected = OpmlParseException.class)
+	public void badsample6() throws OpmlParseException, IOException {
+		try (Reader resourceReader = new FileReader(getClass().getResource("/badsample6.opml").getPath())) {
+			new OpmlParser().parse(resourceReader);
+		} catch (OpmlParseException e) {
+			Assert.assertTrue("message is " + e.getMessage(), e.getMessage().contains("more than once"));
+			throw e;
+		}
+	}
+
+	@Test(expected = OpmlParseException.class)
+	public void badsample7() throws OpmlParseException, IOException {
+		try (Reader resourceReader = new FileReader(getClass().getResource("/badsample7.opml").getPath())) {
+			new OpmlParser().parse(resourceReader);
+		} catch (OpmlParseException e) {
+			Assert.assertTrue("message is " + e.getMessage(), e.getMessage().contains("opml element does not have required attribute version"));
 			throw e;
 		}
 	}

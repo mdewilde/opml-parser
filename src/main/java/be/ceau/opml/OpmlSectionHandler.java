@@ -6,7 +6,7 @@ import org.xmlpull.v1.XmlPullParser;
  * Handling strategy for specific sections of an OPML document. Implementations should be assumed not-threadsafe unless
  * explicitly documented otherwise.
  */
-interface OpmlSectionHandler {
+interface OpmlSectionHandler<E> {
 
 	/**
 	 * Handle {@link XmlPullParser#START_TAG} event. The {@link XmlPullParser} should not be moved by this method.
@@ -35,4 +35,6 @@ interface OpmlSectionHandler {
 	 */
 	void endTag(XmlPullParser xpp) throws OpmlParseException;
 
+	E get();
+	
 }

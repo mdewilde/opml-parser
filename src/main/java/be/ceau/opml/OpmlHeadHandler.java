@@ -8,22 +8,31 @@ import java.util.List;
 import org.xmlpull.v1.XmlPullParser;
 
 import be.ceau.opml.entity.Head;
-import be.ceau.opml.entity.Opml;
 
-final class OpmlHeadHandler implements OpmlSectionHandler {
+final class OpmlHeadHandler implements OpmlSectionHandler<Head> {
 
-	private final Opml opml;
 	private final Deque<String> stack = new ArrayDeque<>();
-	
-	OpmlHeadHandler(Opml opml) {
-		this.opml = opml;
-	}
+
+	private String title;
+	private String dateCreated;
+	private String dateModified;
+	private String ownerName;
+	private String ownerEmail;
+	private String ownerId;
+	private String docs;
+	private final List<Integer> expansionState = new ArrayList<>();
+	private Integer vertScrollState;
+	private Integer windowTop;
+	private Integer windowLeft;
+	private Integer windowBottom;
+	private Integer windowRight;
 
 	@Override
 	public void startTag(XmlPullParser xpp) throws OpmlParseException {
 		// no nested elements in head
 		if (!stack.isEmpty()) {
-			throw new OpmlParseException(String.format("head section contains nested element %s inside element %s", xpp.getName(), stack.peek()));
+			throw new OpmlParseException(String.format("head section contains nested element %s inside element %s",
+					xpp.getName(), stack.peek()));
 		}
 		stack.push(xpp.getName());
 	}
@@ -36,31 +45,30 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 			return;
 		}
 		final String text = xpp.getText();
-		final Head head = opml.getHead();
+
 		switch (stack.peek()) {
 		case "title":
-			head.setTitle(text);
+			title = text;
 			break;
 		case "dateCreated":
-			head.setDateCreated(text);
+			dateCreated = text;
 			break;
 		case "dateModified":
-			head.setDateModified(text);
+			dateModified = text;
 			break;
 		case "ownerName":
-			head.setOwnerName(text);
+			ownerName = text;
 			break;
 		case "ownerEmail":
-			head.setOwnerEmail(text);
+			ownerEmail = text;
 			break;
 		case "ownerId":
-			head.setOwnerId(text);
+			ownerId = text;
 			break;
 		case "docs":
-			head.setDocs(text);
+			docs = text;
 			break;
 		case "expansionState":
-			List<Integer> expansionState = new ArrayList<>();
 			String[] split = text.split(",");
 			for (String part : split) {
 				part = part.trim();
@@ -72,18 +80,17 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 					}
 				}
 			}
-			head.setExpansionState(expansionState);
 			break;
 		case "vertScrollState": {
 			String trimmed = text.trim();
 			if (!trimmed.isEmpty()) {
 				try {
-					head.setVertScrollState(Integer.parseInt(trimmed.trim()));
+					vertScrollState = Integer.parseInt(trimmed.trim());
 				} catch (NumberFormatException e) {
 					throw new OpmlParseException("vertScrollState must be a number");
 				}
 			} else {
-				head.setVertScrollState(null);
+				vertScrollState = null;
 			}
 			break;
 		}
@@ -91,12 +98,12 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 			String trimmed = text.trim();
 			if (!trimmed.isEmpty()) {
 				try {
-					head.setWindowBottom(Integer.parseInt(text.trim()));
+					windowBottom = Integer.parseInt(text.trim());
 				} catch (NumberFormatException e) {
 					throw new OpmlParseException("windowBottom must be a number");
 				}
 			} else {
-				head.setVertScrollState(null);
+				vertScrollState = null;
 			}
 			break;
 		}
@@ -104,12 +111,12 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 			String trimmed = text.trim();
 			if (!trimmed.isEmpty()) {
 				try {
-					head.setWindowLeft(Integer.parseInt(text.trim()));
+					windowLeft = Integer.parseInt(text.trim());
 				} catch (NumberFormatException e) {
 					throw new OpmlParseException("windowLeft must be a number");
 				}
 			} else {
-				head.setVertScrollState(null);
+				vertScrollState = null;
 			}
 			break;
 		}
@@ -117,12 +124,12 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 			String trimmed = text.trim();
 			if (!trimmed.isEmpty()) {
 				try {
-					head.setWindowRight(Integer.parseInt(text.trim()));
+					windowRight = Integer.parseInt(text.trim());
 				} catch (NumberFormatException e) {
 					throw new OpmlParseException("windowRight must be a number");
 				}
 			} else {
-				head.setVertScrollState(null);
+				vertScrollState = null;
 			}
 			break;
 		}
@@ -130,12 +137,12 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 			String trimmed = text.trim();
 			if (!trimmed.isEmpty()) {
 				try {
-					head.setWindowTop(Integer.parseInt(text.trim()));
+					windowTop = Integer.parseInt(text.trim());
 				} catch (NumberFormatException e) {
 					throw new OpmlParseException("windowTop must be a number");
 				}
 			} else {
-				head.setVertScrollState(null);
+				vertScrollState = null;
 			}
 			break;
 		}
@@ -148,6 +155,12 @@ final class OpmlHeadHandler implements OpmlSectionHandler {
 		if (!xpp.getName().equals(opened) && !xpp.getName().equals("head")) {
 			throw new OpmlParseException(String.format("expected close of %s but found %s", opened, xpp.getName()));
 		}
+	}
+
+	@Override
+	public Head get() {
+		return new Head(title, dateCreated, dateModified, ownerName, ownerEmail, ownerId, docs, expansionState,
+				vertScrollState, windowTop, windowLeft, windowBottom, windowRight);
 	}
 
 }

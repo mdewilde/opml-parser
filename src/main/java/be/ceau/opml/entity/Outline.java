@@ -17,26 +17,48 @@ package be.ceau.opml.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 /**
+ * <p>
  * An {@link <outline>} is an XML element containing at least one required attribute, text, and zero or more additional
  * attributes. An {@link <outline>} may contain zero or more {@link <outline>} sub-elements. No attribute may be
  * repeated within the same {@link <outline>} element.
+ * </p>
+ * <p>
+ * Instances are unmodifiable and threadsafe.
+ * </p>
  */
-public class Outline implements Serializable {
+public final class Outline implements Serializable {
 
 	private static final long serialVersionUID = 1510395943061L;
 
-	private final Map<String, String> attributes = new HashMap<>();
-	private final List<Outline> subElements = new ArrayList<>();
+	private final Map<String, String> attributes;
+	private final List<Outline> subElements;
 
-	public void putAttribute(String key, String value) {
-		this.attributes.put(key, value);
+	/**
+	 * @param attributes
+	 *            a {@link Map}, can not be {@code null}
+	 * @param subElements
+	 *            a {@link List}, can not be {@code null}
+	 */
+	public Outline(Map<String, String> attributes, List<Outline> subElements) {
+		if (attributes == null) {
+			throw new IllegalArgumentException("attributes can not be null");
+		}
+		if (subElements == null) {
+			throw new IllegalArgumentException("subElements can not be null");
+		}
+		this.attributes = Collections.unmodifiableMap(new HashMap<>(attributes));
+		this.subElements = Collections.unmodifiableList(new ArrayList<>(subElements));
 	}
 
+	/**
+	 * @return unmodifiable {@link Map} with all attributes of this {@link Outline}
+	 */
 	public Map<String, String> getAttributes() {
 		return attributes;
 	}
@@ -74,12 +96,6 @@ public class Outline implements Serializable {
 		return attributes.get("text");
 	}
 
-	public void addSubElement(Outline outline) {
-		if (outline != null) {
-			subElements.add(outline);
-		}
-	}
-
 	public List<Outline> getSubElements() {
 		return subElements;
 	}
@@ -98,8 +114,8 @@ public class Outline implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
-		result = prime * result + ((subElements == null) ? 0 : subElements.hashCode());
+		result = prime * result + attributes.hashCode();
+		result = prime * result + subElements.hashCode();
 		return result;
 	}
 
@@ -112,15 +128,9 @@ public class Outline implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Outline other = (Outline) obj;
-		if (attributes == null) {
-			if (other.attributes != null)
-				return false;
-		} else if (!attributes.equals(other.attributes))
+		if (!attributes.equals(other.attributes))
 			return false;
-		if (subElements == null) {
-			if (other.subElements != null)
-				return false;
-		} else if (!subElements.equals(other.subElements))
+		if (!subElements.equals(other.subElements))
 			return false;
 		return true;
 	}

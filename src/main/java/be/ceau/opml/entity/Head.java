@@ -16,7 +16,7 @@
 package be.ceau.opml.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -26,31 +26,53 @@ public class Head implements Serializable {
 
 	private static final long serialVersionUID = 1510395890351L;
 
-	private String title;
+	private final String title;
 
-	private String dateCreated;
+	private final String dateCreated;
 
-	private String dateModified;
+	private final String dateModified;
 
-	private String ownerName;
+	private final String ownerName;
 
-	private String ownerEmail;
+	private final String ownerEmail;
 
-	private String ownerId;
+	private final String ownerId;
 
-	private String docs;
+	private final String docs;
 
-	private final List<Integer> expansionState = new ArrayList<>();
+	private final List<Integer> expansionState;
 
-	private Integer vertScrollState;
+	private final Integer vertScrollState;
 
-	private Integer windowTop;
+	private final Integer windowTop;
 
-	private Integer windowLeft;
+	private final Integer windowLeft;
 
-	private Integer windowBottom;
+	private final Integer windowBottom;
 
-	private Integer windowRight;
+	private final Integer windowRight;
+
+	public Head(String title, String dateCreated, String dateModified, String ownerName, String ownerEmail,
+			String ownerId, String docs, List<Integer> expansionState, Integer vertScrollState, Integer windowTop,
+			Integer windowLeft, Integer windowBottom, Integer windowRight) {
+		this.title = title;
+		this.dateCreated = dateCreated;
+		this.dateModified = dateModified;
+		this.ownerName = ownerName;
+		this.ownerEmail = ownerEmail;
+		this.ownerId = ownerId;
+		this.docs = docs;
+		if (expansionState == null) {
+			this.expansionState = Collections.emptyList();
+		} else {
+			this.expansionState = Collections.unmodifiableList(expansionState);
+		}
+		this.vertScrollState = vertScrollState;
+		this.windowTop = windowTop;
+		this.windowLeft = windowLeft;
+		this.windowBottom = windowBottom;
+		this.windowRight = windowRight;
+	}
 
 	/**
 	 * The title of the document
@@ -59,14 +81,6 @@ public class Head implements Serializable {
 	 */
 	public String getTitle() {
 		return title;
-	}
-
-	/**
-	 * @param title
-	 * @see #getTitle()
-	 */
-	public void setTitle(String title) {
-		this.title = title;
 	}
 
 	/**
@@ -79,28 +93,12 @@ public class Head implements Serializable {
 	}
 
 	/**
-	 * @param dateCreated
-	 * @see #getDateCreated()
-	 */
-	public void setDateCreated(String dateCreated) {
-		this.dateCreated = dateCreated;
-	}
-
-	/**
 	 * A date-time, indicating when the document was last modified (RFC 822 date)
 	 * 
 	 * @return {@link String} or {@code null} if not set
 	 */
 	public String getDateModified() {
 		return dateModified;
-	}
-
-	/**
-	 * @param dateModified
-	 * @see #getDateModified()
-	 */
-	public void setDateModified(String dateModified) {
-		this.dateModified = dateModified;
 	}
 
 	/**
@@ -113,28 +111,12 @@ public class Head implements Serializable {
 	}
 
 	/**
-	 * @param ownerName
-	 * @see #getOwnerName()
-	 */
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
-	}
-
-	/**
 	 * The email address of the owner of the document
 	 * 
 	 * @return {@link String} or {@code null} if not set
 	 */
 	public String getOwnerEmail() {
 		return ownerEmail;
-	}
-
-	/**
-	 * @param ownerEmail
-	 * @see #getOwnerEmail()
-	 */
-	public void setOwnerEmail(String ownerEmail) {
-		this.ownerEmail = ownerEmail;
 	}
 
 	/**
@@ -149,14 +131,6 @@ public class Head implements Serializable {
 	}
 
 	/**
-	 * @param ownerId
-	 * @see #getOwnerId()
-	 */
-	public void setOwnerId(String ownerId) {
-		this.ownerId = ownerId;
-	}
-
-	/**
 	 * The http address of documentation for the format used in the OPML file.It's probably a pointer to this page for
 	 * people who might stumble across the file on a web server 25 years from now and wonder what it is.
 	 * 
@@ -164,14 +138,6 @@ public class Head implements Serializable {
 	 */
 	public String getDocs() {
 		return docs;
-	}
-
-	/**
-	 * @param docs
-	 * @see #getDocs()
-	 */
-	public void setDocs(String docs) {
-		this.docs = docs;
 	}
 
 	/**
@@ -186,17 +152,6 @@ public class Head implements Serializable {
 	}
 
 	/**
-	 * @param expansionState
-	 * @see #getExpansionState()
-	 */
-	public void setExpansionState(List<Integer> expansionState) {
-		this.expansionState.clear();
-		if (expansionState != null) {
-			this.expansionState.addAll(expansionState);
-		}
-	}
-
-	/**
 	 * Line of the outline is displayed on the top line of the window. This number is calculated with the expansion
 	 * state already applied.
 	 * 
@@ -204,14 +159,6 @@ public class Head implements Serializable {
 	 */
 	public Integer getVertScrollState() {
 		return vertScrollState;
-	}
-
-	/**
-	 * @param windowTop
-	 * @see #getWindowTop()
-	 */
-	public void setVertScrollState(Integer vertScrollState) {
-		this.vertScrollState = vertScrollState;
 	}
 
 	/**
@@ -224,28 +171,12 @@ public class Head implements Serializable {
 	}
 
 	/**
-	 * @param windowTop
-	 * @see #getWindowTop()
-	 */
-	public void setWindowTop(Integer windowTop) {
-		this.windowTop = windowTop;
-	}
-
-	/**
 	 * The pixel location of the left edge of the window
 	 * 
 	 * @return {@link Integer} or {@code null} if not set
 	 */
 	public Integer getWindowLeft() {
 		return windowLeft;
-	}
-
-	/**
-	 * @param windowLeft
-	 * @see #getWindowLeft()
-	 */
-	public void setWindowLeft(Integer windowLeft) {
-		this.windowLeft = windowLeft;
 	}
 
 	/**
@@ -258,28 +189,12 @@ public class Head implements Serializable {
 	}
 
 	/**
-	 * @param windowBottom
-	 * @see #getWindowBottom()
-	 */
-	public void setWindowBottom(Integer windowBottom) {
-		this.windowBottom = windowBottom;
-	}
-
-	/**
 	 * The pixel location of the right edge of the window
 	 * 
 	 * @return {@link Integer} or {@code null} if not set
 	 */
 	public Integer getWindowRight() {
 		return windowRight;
-	}
-
-	/**
-	 * @param windowRight
-	 * @see #getWindowRight()
-	 */
-	public void setWindowRight(Integer windowRight) {
-		this.windowRight = windowRight;
 	}
 
 	@Override

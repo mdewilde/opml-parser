@@ -17,6 +17,7 @@ package be.ceau.opml.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -27,16 +28,17 @@ public class Body implements Serializable {
 	private static final long serialVersionUID = 1510395846940L;
 
 	// A <body> contains one or more <outline> elements
-	private final List<Outline> outlines = new ArrayList<>();
+	private final List<Outline> outlines;
 
-	public void addOutline(Outline outline) {
-		if (outline != null) {
-			this.outlines.add(outline);
+	public Body(List<Outline> outlines) {
+		if (outlines == null || outlines.isEmpty()) {
+			throw new IllegalArgumentException("a Body must contain at least one Outline");
 		}
+		this.outlines = Collections.unmodifiableList(new ArrayList<>(outlines));
 	}
 
 	/**
-	 * @return mutable {@link List} holding every {@link Outline} in this {@link Body}
+	 * @return unmodifiable {@link List} holding every {@link Outline} in this {@link Body}
 	 */
 	public List<Outline> getOutlines() {
 		return outlines;
@@ -51,7 +53,7 @@ public class Body implements Serializable {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder("Body [outlines=");

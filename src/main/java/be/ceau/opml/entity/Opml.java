@@ -25,6 +25,9 @@ import java.io.Serializable;
  * {@code <opml>} is an XML element, with a single required attribute, version; a {@link <head>} element and a
  * {@link <body>} element, both of which are required.
  * </p>
+ * <p>
+ * Instances of this class are unmodifiable and threadsafe.
+ * </p>
  * 
  * @see <a href="http://dev.opml.org/spec2.html">OPML version 2 specification</a>
  */
@@ -35,37 +38,37 @@ public class Opml implements Serializable {
 	/**
 	 * OPML version
 	 */
-	private String version;
+	private final String version;
 
-	private Head head = new Head();
+	private final Head head;
 
-	/**
-	 * Contains the content of the outline. Must have at least one outline element.
-	 */
-	private Body body = new Body();
+	private final Body body;
+
+	public Opml(String version, Head head, Body body) {
+		if (version == null) {
+			throw new IllegalArgumentException("version can not be null");
+		}
+		if (head == null) {
+			throw new IllegalArgumentException("head can not be null");
+		}
+		if (body == null) {
+			throw new IllegalArgumentException("body can not be null");
+		}
+		this.version = version;
+		this.head = head;
+		this.body = body;
+	}
 
 	public String getVersion() {
 		return version;
-	}
-
-	public void setVersion(String version) {
-		this.version = version;
 	}
 
 	public Head getHead() {
 		return head;
 	}
 
-	public void setHead(Head head) {
-		this.head = head;
-	}
-
 	public Body getBody() {
 		return body;
-	}
-
-	public void setBody(Body body) {
-		this.body = body;
 	}
 
 	@Override
