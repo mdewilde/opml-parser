@@ -2,7 +2,7 @@
 
 ![Maven Central badge](https://maven-badges.herokuapp.com/maven-central/be.ceau/opml-parser/badge.svg) [![Javadocs](https://javadoc.io/badge/be.ceau/opml-parser.svg)](https://javadoc.io/doc/be.ceau/opml-parser)  [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
-Java library for parsing OPML documents.
+Java library for parsing OPML (Outline Processor Markup Language) documents.
 
 ### Usage
 
