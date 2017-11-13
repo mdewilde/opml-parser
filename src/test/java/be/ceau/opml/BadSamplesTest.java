@@ -180,27 +180,6 @@ public class BadSamplesTest {
 		}
 	}
 
-	/*
-	throw new OpmlParseException("windowBottom must be a number");
-}
-} else {
-vertScrollState = null;
-}
-break;
-case "windowLeft": {
-	String trimmed = text.trim();
-	if (!trimmed.isEmpty()) {
-		try {
-			windowLeft = Integer.parseInt(text.trim());
-		} catch (NumberFormatException e) {
-			throw new OpmlParseException("windowLeft must be a number");
-		}
-	} else {
-		vertScrollState = null;
-	}
-	break;
-}
-*/
 	private Reader read(String filename) throws FileNotFoundException {
 		return new FileReader(getClass().getResource("/" + filename).getPath());
 	}

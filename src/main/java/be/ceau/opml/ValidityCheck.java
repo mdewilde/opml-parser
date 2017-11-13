@@ -67,7 +67,7 @@ class ValidityCheck {
         return true;
 	}
 	
-	private static String translate(int position) {
+	static String translate(int position) {
 		switch (position) {
 			case XmlPullParser.START_DOCUMENT : 
 				return "START_DOCUMENT";
