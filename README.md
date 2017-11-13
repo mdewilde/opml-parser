@@ -6,7 +6,7 @@ Java library for parsing OPML (Outline Processor Markup Language) documents.
 
   * supports [1.0 specification](http://dev.opml.org/spec1.html)
   * supports [2.0 specification](http://dev.opml.org/spec2.html)
-  * > 90% test coverage
+  * over 90% test coverage
 
 ### Usage
 
