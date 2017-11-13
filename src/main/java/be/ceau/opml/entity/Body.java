@@ -45,6 +45,8 @@ public class Body implements Serializable {
 	}
 
 	/**
+	 * @param index
+	 *            index of the element to return
 	 * @return {@link Outline} at the given index, or {@code null} if there is no element at that index
 	 */
 	public Outline getOutline(int index) {

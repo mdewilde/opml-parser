@@ -22,8 +22,8 @@ import java.io.Serializable;
  * Instances represent a full OPML document.
  * </p>
  * <p>
- * {@code <opml>} is an XML element, with a single required attribute, version; a {@link <head>} element and a
- * {@link <body>} element, both of which are required.
+ * {@code <opml>} is an XML element, with a single required attribute, version; a {@code <head>} element and a
+ * {@code <body>} element, both of which are required.
  * </p>
  * <p>
  * Instances of this class are unmodifiable and threadsafe.

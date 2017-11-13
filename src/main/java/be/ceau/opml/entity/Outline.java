@@ -24,9 +24,9 @@ import java.util.Map;
 
 /**
  * <p>
- * An {@link <outline>} is an XML element containing at least one required attribute, text, and zero or more additional
- * attributes. An {@link <outline>} may contain zero or more {@link <outline>} sub-elements. No attribute may be
- * repeated within the same {@link <outline>} element.
+ * An {@code <outline>} is an XML element containing at least one required attribute, text, and zero or more additional
+ * attributes. An {@code <outline>} may contain zero or more {@code <outline>} sub-elements. No attribute may be
+ * repeated within the same {@code <outline>} element.
  * </p>
  * <p>
  * Instances are unmodifiable and threadsafe.
@@ -101,6 +101,8 @@ public final class Outline implements Serializable {
 	}
 
 	/**
+	 * @param index
+	 *            index of the element to return
 	 * @return {@link Outline} at the given index, or {@code null} if there is no element at that index
 	 */
 	public Outline getSubElement(int index) {
