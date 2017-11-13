@@ -48,7 +48,6 @@ public class DigitalPodcastTest extends AbstractTest {
 
 		Iterator<Outline> iterator = opml.getBody().getOutlines().iterator();
 		
-		
 		outline = iterator.next();
 		Assert.assertEquals("The Adam and Reggie Show", outline.getAttribute("text"));
 		Assert.assertEquals("link", outline.getAttribute("type"));

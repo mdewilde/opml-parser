@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- invalid expansionstate in head  -->
+<opml version="2.0">
+	<head>
+		<title>badsample12.opml</title>
+		<expansionState>1, 2, 3, 4 5, 6</expansionState>
+	</head>
+	<body>
+		<outline text="item" />
+	</body>
+</opml>

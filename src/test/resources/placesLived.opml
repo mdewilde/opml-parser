@@ -8,7 +8,7 @@
 		<ownerName>Dave Winer</ownerName>
 		<ownerId>http://www.opml.org/profiles/sendMail?usernum=1</ownerId>
 		<expansionState>1, 2, 5, 10, 13, 15</expansionState>
-		<vertScrollState>1</vertScrollState>
+		<vertScrollState>    </vertScrollState>
 		<windowTop>242</windowTop>
 		<windowLeft>329</windowLeft>
 		<windowBottom>665</windowBottom>

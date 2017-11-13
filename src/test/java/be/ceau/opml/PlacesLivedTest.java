@@ -39,7 +39,7 @@ public class PlacesLivedTest extends AbstractTest {
 		Assert.assertEquals("Dave Winer", opml.getHead().getOwnerName());
 		Assert.assertEquals("http://www.opml.org/profiles/sendMail?usernum=1", opml.getHead().getOwnerId());
 		Assert.assertEquals(Arrays.asList(1, 2, 5, 10, 13, 15), opml.getHead().getExpansionState());
-		Assert.assertTrue(1 == opml.getHead().getVertScrollState());
+		Assert.assertNull(opml.getHead().getVertScrollState());
 		Assert.assertTrue(242 == opml.getHead().getWindowTop());
 		Assert.assertTrue(329 == opml.getHead().getWindowLeft());
 		Assert.assertTrue(665 == opml.getHead().getWindowBottom());

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- invalid windowBottom  -->
+<opml version="2.0">
+	<head>
+		<title>badsample13.opml</title>
+		<windowTop>61</windowTop>
+		<windowLeft>304</windowLeft>
+		<windowBottom>562sdf</windowBottom>
+		<windowRight>842</windowRight>
+	</head>
+	<body>
+		<outline text="item" />
+	</body>
+</opml>

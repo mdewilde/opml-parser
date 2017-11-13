@@ -1,3 +1,18 @@
+/*
+	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+		https://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 package be.ceau.opml;
 
 import java.util.ArrayDeque;
@@ -18,10 +33,12 @@ final class OpmlBodyHandler implements OpmlSectionHandler<Body> {
 
 	private final List<OutlineBuilder> outlineBuilders = new ArrayList<>();
 
+	private boolean started = false;
+	
 	@Override
 	public void startTag(XmlPullParser xpp) throws OpmlParseException {
 		ValidityCheck.require(xpp, XmlPullParser.START_TAG, "outline");
-
+		
 		OutlineBuilder outlineBuilder = parseOutlineBuilder(xpp);
 		if (stack.isEmpty()) {
 			// this outline is a child of <body>
@@ -32,11 +49,14 @@ final class OpmlBodyHandler implements OpmlSectionHandler<Body> {
 		}
 
 		stack.push(outlineBuilder);
+
+		started = true;
+		
 	}
 
 	@Override
 	public void text(XmlPullParser xpp) throws OpmlParseException {
-		ValidityCheck.requireNoText(xpp, stack.isEmpty() ? "body" : "outline");
+		ValidityCheck.requireNoText(xpp, stack.isEmpty() ? "body" : "outline", started);
 	}
 
 	@Override
@@ -47,6 +67,7 @@ final class OpmlBodyHandler implements OpmlSectionHandler<Body> {
 		} else {
 			ValidityCheck.require(xpp, XmlPullParser.END_TAG, "body");
 		}
+		started = false;
 	}
 
 	@Override

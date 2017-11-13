@@ -4,18 +4,27 @@
 
 Java library for parsing OPML (Outline Processor Markup Language) documents.
 
+  * supports [1.0 specification](http://dev.opml.org/spec1.html)
+  * supports [2.0 specification](http://dev.opml.org/spec2.html)
+  * > 90% test coverage
+
 ### Usage
 
 ```Java
-Opml opml = new Parser().parse(input);
+Opml opml = new OpmlParser().parse(input);
 ```
+
+### Requirements
+This library requires Java 7 or higher.
 
 ### Maven Central
 Include this project directly from Maven Central
 ```XML
-<groupId>be.ceau</groupId>
-<artifactId>opml-parser</artifactId>
-<version>${project.version}</version>
+<dependency>
+	<groupId>be.ceau</groupId>
+	<artifactId>opml-parser</artifactId>
+	<version>${project.version}</version>
+</dependency>
 ```
 
 ### GnuPG public key

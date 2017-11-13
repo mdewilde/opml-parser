@@ -36,6 +36,7 @@ public class MySubscriptionsTest extends AbstractTest {
 		Assert.assertEquals("Tue, 02 Aug 2005 21:42:48 GMT", opml.getHead().getDateModified());
 		Assert.assertEquals("Dave Winer", opml.getHead().getOwnerName());
 		Assert.assertEquals("dave@scripting.com", opml.getHead().getOwnerEmail());
+		Assert.assertEquals("http://dev.opml.org/spec2.html", opml.getHead().getDocs());
 		Assert.assertTrue(opml.getHead().getExpansionState().isEmpty());
 		Assert.assertTrue(1 == opml.getHead().getVertScrollState());
 		Assert.assertTrue(61 == opml.getHead().getWindowTop());

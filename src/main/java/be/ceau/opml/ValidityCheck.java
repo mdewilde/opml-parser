@@ -1,3 +1,18 @@
+/*
+	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+	
+		https://www.apache.org/licenses/LICENSE-2.0
+	
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+*/
 package be.ceau.opml;
 
 import org.xmlpull.v1.XmlPullParser;
@@ -22,20 +37,36 @@ class ValidityCheck {
 	
 	static void requireName(XmlPullParser xpp, String name) throws OpmlParseException {
 		if (!xpp.getName().equals(name)) {
-			throw new OpmlParseException(String.format("required name %s but found name %s", name, xpp.getName()));
+			throw new OpmlParseException(String.format("required element <%s> but found <%s>", name, xpp.getName()));
 		}
 	}
 
-	static void requireNoText(XmlPullParser xpp, String name) throws OpmlParseException {
-		String text = xpp.getText();
-		if (text != null) {
-			text = text.trim();
-			if (!text.isEmpty()) {
-				throw new OpmlParseException(String.format("element %s should not contain text but contains %s", name, text));
+	static void requireNoText(XmlPullParser xpp, String elementName, boolean insideElement) throws OpmlParseException {
+		if (!isTextBlank(xpp)) {
+			if (insideElement) {
+				throw new OpmlParseException(String.format("text inside element <%s>: \"%s\"", elementName, xpp.getText()));
+			} else {
+				throw new OpmlParseException(String.format("required element <%s> but found text: \"%s\"", elementName, xpp.getText()));
 			}
 		}
 	}
 
+	static boolean isTextBlank(XmlPullParser xpp) {
+		final String str = xpp.getText();
+		// adapted from Apache commons-lang StringUtils#isBlank(String)
+        // licensed under Apache Software License 2.0
+		int strLen;
+        if (str == null || (strLen = str.length()) == 0) {
+            return true;
+        }
+        for (int i = 0; i < strLen; i++) {
+            if ((Character.isWhitespace(str.charAt(i)) == false)) {
+                return false;
+            }
+        }
+        return true;
+	}
+	
 	private static String translate(int position) {
 		switch (position) {
 			case XmlPullParser.START_DOCUMENT : 

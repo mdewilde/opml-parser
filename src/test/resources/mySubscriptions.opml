@@ -9,6 +9,7 @@
 		<ownerEmail>dave@scripting.com</ownerEmail>
 		<expansionState></expansionState>
 		<vertScrollState>1</vertScrollState>
+		<docs>http://dev.opml.org/spec2.html</docs>
 		<windowTop>61</windowTop>
 		<windowLeft>304</windowLeft>
 		<windowBottom>562</windowBottom>

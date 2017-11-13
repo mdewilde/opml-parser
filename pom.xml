@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>be.ceau</groupId>
 	<artifactId>opml-parser</artifactId>
-	<version>0.2.0</version>
+	<version>1.0.0</version>
 	<name>OPML Parser</name>
 	<description>Java parser for OPML documents</description>
 	<url>https://github.com/mdewilde/opml-parser</url>

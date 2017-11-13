@@ -118,6 +118,7 @@ public class OpmlParser {
 		OpmlSectionHandler<?> handler = initHandler;
 
 		final Deque<String> stack = new ArrayDeque<>();
+		boolean startedOpml = false;
 		boolean startedHead = false;
 		boolean startedBody = false;
 
@@ -146,6 +147,7 @@ public class OpmlParser {
 						}
 						default: {
 							handler.startTag(xpp);
+							startedOpml = true;
 							break;
 						}
 					}
@@ -159,18 +161,19 @@ public class OpmlParser {
 				}
 				case XmlPullParser.END_TAG: {
 					String ended = xpp.getName();
-					String started = stack.pop();
-					if (!ended.equals(started)) {
-						throw new OpmlParseException(String.format("found </%s> but expected </%s>", ended, started));
-					}
+					stack.pop();
 					switch (ended) {
 						case "head":
-							// intended fallthrough
-						case "body":
+							handler.endTag(xpp);
 							handler = initHandler;
-							// intended fallthrough
+							break;
+						case "body":
+							handler.endTag(xpp);
+							handler = initHandler;
+							break;
 						default: {
 							handler.endTag(xpp);
+							break;
 						}
 					}
 					ValidityCheck.requirePosition(xpp, XmlPullParser.END_TAG);
@@ -182,8 +185,14 @@ public class OpmlParser {
 
 		if (!stack.isEmpty()) {
 			throw new OpmlParseException(String.format("XML invalid, unclosed tags %s", stack));
+		} else if (!startedOpml) {
+			throw new OpmlParseException(String.format("XML invalid, no <opml> element"));
+		} else if (!startedHead) {
+			throw new OpmlParseException(String.format("XML invalid, no <head> element"));
+		} else if (!startedBody) {
+			throw new OpmlParseException(String.format("XML invalid, no <body> element"));
 		}
-
+		
 		return new Opml(initHandler.get(), headHandler.get(), bodyHandler.get());
 
 	}
