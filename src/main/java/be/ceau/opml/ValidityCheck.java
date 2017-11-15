@@ -52,7 +52,10 @@ class ValidityCheck {
 	}
 
 	static boolean isTextBlank(XmlPullParser xpp) {
-		final String str = xpp.getText();
+		return isTextBlank(xpp.getText());
+	}
+
+	static boolean isTextBlank(String str) {
 		// adapted from Apache commons-lang StringUtils#isBlank(String)
         // licensed under Apache Software License 2.0
 		int strLen;

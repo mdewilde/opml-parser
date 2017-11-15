@@ -24,8 +24,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -36,8 +34,6 @@ import be.ceau.opml.entity.Opml;
  * Parser for OPML documents. Instances are threadsafe and reusable.
  */
 public class OpmlParser {
-
-	private static final Logger logger = LoggerFactory.getLogger(OpmlParser.class);
 
 	/**
 	 * Parse the given {@link String} into an {@link Opml} instance

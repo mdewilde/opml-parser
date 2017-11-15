@@ -17,7 +17,9 @@ package be.ceau.opml;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 
 
 public class ValidityCheckTest {
@@ -32,4 +34,32 @@ public class ValidityCheckTest {
 		Assert.assertEquals("123", ValidityCheck.translate(123)); 
 	}
 
+	@Test
+	public void requirePosition() {
+		XmlPullParser parser = Mockito.mock(XmlPullParser.class);
+		try {
+			Mockito.when(parser.getEventType()).thenReturn(XmlPullParser.END_TAG);
+			ValidityCheck.requirePosition(parser, XmlPullParser.START_TAG);
+		} catch (OpmlParseException e) {
+			Assert.assertEquals("required position START_TAG but found position END_TAG", e.getMessage());
+		} catch (XmlPullParserException e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	@Test(expected = OpmlParseException.class)
+	public void wrapXmlPullParserException() throws OpmlParseException, XmlPullParserException {
+		XmlPullParser parser = Mockito.mock(XmlPullParser.class);
+		Mockito.when(parser.getEventType()).thenThrow(XmlPullParserException.class);
+		ValidityCheck.requirePosition(parser, XmlPullParser.START_DOCUMENT);
+	}
+
+	@Test
+	public void isTextBlank() {
+		Assert.assertTrue(ValidityCheck.isTextBlank((String) null));
+		Assert.assertTrue(ValidityCheck.isTextBlank("   	"));
+		Assert.assertTrue(ValidityCheck.isTextBlank(""));
+	}
+
+	
 }
