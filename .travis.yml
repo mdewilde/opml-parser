@@ -1,1 +1,2 @@
 language: java
+install: ./mvnw install -DskipTests=true -Dgpg.skip=true
