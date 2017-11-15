@@ -120,7 +120,7 @@ final class OpmlHeadHandler implements OpmlSectionHandler<Head> {
 					throw new OpmlParseException("windowBottom must be a number");
 				}
 			} else {
-				vertScrollState = null;
+				windowBottom = null;
 			}
 			break;
 		}
@@ -133,7 +133,7 @@ final class OpmlHeadHandler implements OpmlSectionHandler<Head> {
 					throw new OpmlParseException("windowLeft must be a number");
 				}
 			} else {
-				vertScrollState = null;
+				windowLeft = null;
 			}
 			break;
 		}
@@ -146,7 +146,7 @@ final class OpmlHeadHandler implements OpmlSectionHandler<Head> {
 					throw new OpmlParseException("windowRight must be a number");
 				}
 			} else {
-				vertScrollState = null;
+				windowRight = null;
 			}
 			break;
 		}
@@ -159,7 +159,7 @@ final class OpmlHeadHandler implements OpmlSectionHandler<Head> {
 					throw new OpmlParseException("windowTop must be a number");
 				}
 			} else {
-				vertScrollState = null;
+				windowTop = null;
 			}
 			break;
 		}
