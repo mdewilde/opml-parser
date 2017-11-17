@@ -21,6 +21,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+
+import be.ceau.opml.ValidityCheck;
 
 /**
  * <p>
@@ -41,9 +44,11 @@ public final class Outline implements Serializable {
 
 	/**
 	 * @param attributes
-	 *            a {@link Map}, can not be {@code null}
+	 *            a {@link Map}, can not be {@code null}, can not contain {@code null} or blank {@link String} as key
 	 * @param subElements
 	 *            a {@link List}, can not be {@code null}
+	 * @throws IllegalArgumentException
+	 * 
 	 */
 	public Outline(Map<String, String> attributes, List<Outline> subElements) {
 		if (attributes == null) {
@@ -52,7 +57,14 @@ public final class Outline implements Serializable {
 		if (subElements == null) {
 			throw new IllegalArgumentException("subElements can not be null");
 		}
-		this.attributes = Collections.unmodifiableMap(new HashMap<>(attributes));
+		Map<String, String> map = new HashMap<>();
+		for (Entry<String, String> entry : attributes.entrySet()) {
+			if (ValidityCheck.isTextBlank(entry.getKey())) {
+				throw new IllegalArgumentException("attributes map contains a null or blank key");
+			}
+			map.put(entry.getKey(), entry.getValue());
+		}
+		this.attributes = Collections.unmodifiableMap(map);
 		this.subElements = Collections.unmodifiableList(new ArrayList<>(subElements));
 	}
 

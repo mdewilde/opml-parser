@@ -18,19 +18,17 @@ package be.ceau.opml;
 import java.util.Iterator;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 import be.ceau.opml.entity.Outline;
 
-public class ScriptingNewsDirectoryTest extends AbstractTest {
+public class ScriptingNewsDirectoryTest {
 
-	@Override
-	public String getFile() {
-		return "/scriptingNewsDirectory.opml";
-	}
+	@Test
+	public void test() throws OpmlParseException {
 
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+		Opml opml = SampleReader.parse("/scriptingNewsDirectory.opml");
 
 		Assert.assertEquals("2.0", opml.getVersion());
 

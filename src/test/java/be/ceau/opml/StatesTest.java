@@ -16,19 +16,17 @@
 package be.ceau.opml;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 
-public class StatesTest extends AbstractTest {
+public class StatesTest {
 
-	@Override
-	public String getFile() {
-		return "/states.opml";
-	}
-
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+	@Test
+	public void test() throws OpmlParseException {
 		
+		Opml opml = SampleReader.parse("/states.opml");
+
 		Assert.assertEquals(1, opml.getBody().getOutlines().size());
 		Assert.assertEquals(8, opml.getBody().getOutline(0).getSubElements().size());
 		Assert.assertEquals(6, opml.getBody().getOutline(0).getSubElement(0).getSubElements().size());

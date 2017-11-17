@@ -18,7 +18,7 @@ package be.ceau.opml;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
-class ValidityCheck {
+public class ValidityCheck {
 
 	static void require(XmlPullParser xpp, int position, String name) throws OpmlParseException {
 		requirePosition(xpp, position);
@@ -55,7 +55,7 @@ class ValidityCheck {
 		return isTextBlank(xpp.getText());
 	}
 
-	static boolean isTextBlank(String str) {
+	public static boolean isTextBlank(String str) {
 		// adapted from Apache commons-lang StringUtils#isBlank(String)
         // licensed under Apache Software License 2.0
 		int strLen;

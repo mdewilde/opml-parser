@@ -18,19 +18,17 @@ package be.ceau.opml;
 import java.util.Arrays;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 import be.ceau.opml.entity.Outline;
 
-public class PlacesLivedTest extends AbstractTest {
+public class PlacesLivedTest {
 
-	@Override
-	public String getFile() {
-		return "/placesLived.opml";
-	}
+	@Test
+	public void test() throws OpmlParseException {
 
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+		Opml opml = SampleReader.parse("/placesLived.opml");
 
 		Assert.assertEquals("2.0", opml.getVersion());
 		Assert.assertEquals("placesLived.opml", opml.getHead().getTitle());

@@ -16,18 +16,16 @@
 package be.ceau.opml;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 
-public class UserlandSamplesTest extends AbstractTest {
+public class UserlandSamplesTest {
 
-	@Override
-	public String getFile() {
-		return "/userlandsamples.opml";
-	}
+	@Test
+	public void test() throws OpmlParseException {
 
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+		Opml opml = SampleReader.parse("/userlandsamples.opml");
 
 		Assert.assertEquals(4, opml.getBody().getOutlines().size());
 		Assert.assertEquals("file.writewholefile (f, string.filledstring (\"x\", size))", opml.getBody().getOutline(1).getSubElement(1).getAttribute("text"));

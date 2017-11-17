@@ -16,19 +16,17 @@
 package be.ceau.opml;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 import be.ceau.opml.entity.Outline;
 
-public class MySubscriptionsTest extends AbstractTest {
+public class MySubscriptionsTest {
 
-	@Override
-	public String getFile() {
-		return "/mySubscriptions.opml";
-	}
+	@Test
+	public void test() throws OpmlParseException {
 
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+		Opml opml = SampleReader.parse("/mySubscriptions.opml");
 
 		Assert.assertEquals("2.0", opml.getVersion());
 		Assert.assertEquals("mySubscriptions.opml", opml.getHead().getTitle());

@@ -16,18 +16,16 @@
 package be.ceau.opml;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 
-public class CategoryTest extends AbstractTest {
+public class CategoryTest {
 
-	@Override
-	public String getFile() {
-		return "/category.opml";
-	}
-
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+	@Test
+	public void test() throws OpmlParseException {
+		
+		Opml opml = SampleReader.parse("/category.opml");
 		
 		Assert.assertEquals("2.0", opml.getVersion());
 		Assert.assertEquals("Illustrating the category attribute", opml.getHead().getTitle());

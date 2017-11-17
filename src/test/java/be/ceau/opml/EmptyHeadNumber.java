@@ -16,19 +16,17 @@
 package be.ceau.opml;
 
 import org.junit.Assert;
+import org.junit.Test;
 
 import be.ceau.opml.entity.Opml;
 
-public class EmptyHeadNumber extends AbstractTest {
+public class EmptyHeadNumber {
 
-	@Override
-	public String getFile() {
-		return "/emptyHeadNumber.opml";
-	}
-
-	@Override
-	public void test(Opml opml) throws OpmlParseException {
+	@Test
+	public void test() throws OpmlParseException {
 		
+		Opml opml = SampleReader.parse("/emptyHeadNumber.opml");
+
 		Assert.assertNull(opml.getHead().getWindowBottom());
 		Assert.assertNull(opml.getHead().getWindowTop());
 		Assert.assertNull(opml.getHead().getWindowLeft());
