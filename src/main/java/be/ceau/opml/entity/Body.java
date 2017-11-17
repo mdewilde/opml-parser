@@ -65,4 +65,29 @@ public class Body implements Serializable {
 		return sb.append("]").toString();
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((outlines == null) ? 0 : outlines.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Body other = (Body) obj;
+		if (outlines == null) {
+			if (other.outlines != null)
+				return false;
+		} else if (!outlines.equals(other.outlines))
+			return false;
+		return true;
+	}
+
 }
