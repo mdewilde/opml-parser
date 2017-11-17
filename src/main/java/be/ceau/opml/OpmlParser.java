@@ -182,13 +182,13 @@ public class OpmlParser {
 		if (!stack.isEmpty()) {
 			throw new OpmlParseException(String.format("XML invalid, unclosed tags %s", stack));
 		} else if (!startedOpml) {
-			throw new OpmlParseException(String.format("XML invalid, no <opml> element"));
+			throw new OpmlParseException("XML invalid, no <opml> element");
 		} else if (!startedHead) {
-			throw new OpmlParseException(String.format("XML invalid, no <head> element"));
+			throw new OpmlParseException("XML invalid, no <head> element");
 		} else if (!startedBody) {
-			throw new OpmlParseException(String.format("XML invalid, no <body> element"));
+			throw new OpmlParseException("XML invalid, no <body> element");
 		}
-		
+
 		return new Opml(initHandler.get(), headHandler.get(), bodyHandler.get());
 
 	}
