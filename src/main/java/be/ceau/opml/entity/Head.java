@@ -152,6 +152,21 @@ public class Head implements Serializable {
 	}
 
 	/**
+	 * @return serialized form of expansionState element
+	 * @see #getExpansionState()
+	 */
+	public String getExpansionStateString() {
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < expansionState.size(); i++) {
+			if (i > 0) {
+				sb.append(", ");
+			}
+			sb.append(expansionState.get(i));
+		}
+		return sb.toString();
+	}
+
+	/**
 	 * Line of the outline is displayed on the top line of the window. This number is calculated with the expansion
 	 * state already applied.
 	 * 
@@ -242,6 +257,103 @@ public class Head implements Serializable {
 				.append(windowRight)
 				.append("]")
 				.toString();
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
+		result = prime * result + ((dateModified == null) ? 0 : dateModified.hashCode());
+		result = prime * result + ((docs == null) ? 0 : docs.hashCode());
+		result = prime * result + ((expansionState == null) ? 0 : expansionState.hashCode());
+		result = prime * result + ((ownerEmail == null) ? 0 : ownerEmail.hashCode());
+		result = prime * result + ((ownerId == null) ? 0 : ownerId.hashCode());
+		result = prime * result + ((ownerName == null) ? 0 : ownerName.hashCode());
+		result = prime * result + ((title == null) ? 0 : title.hashCode());
+		result = prime * result + ((vertScrollState == null) ? 0 : vertScrollState.hashCode());
+		result = prime * result + ((windowBottom == null) ? 0 : windowBottom.hashCode());
+		result = prime * result + ((windowLeft == null) ? 0 : windowLeft.hashCode());
+		result = prime * result + ((windowRight == null) ? 0 : windowRight.hashCode());
+		result = prime * result + ((windowTop == null) ? 0 : windowTop.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Head other = (Head) obj;
+		if (dateCreated == null) {
+			if (other.dateCreated != null)
+				return false;
+		} else if (!dateCreated.equals(other.dateCreated))
+			return false;
+		if (dateModified == null) {
+			if (other.dateModified != null)
+				return false;
+		} else if (!dateModified.equals(other.dateModified))
+			return false;
+		if (docs == null) {
+			if (other.docs != null)
+				return false;
+		} else if (!docs.equals(other.docs))
+			return false;
+		if (expansionState == null) {
+			if (other.expansionState != null)
+				return false;
+		} else if (!expansionState.equals(other.expansionState))
+			return false;
+		if (ownerEmail == null) {
+			if (other.ownerEmail != null)
+				return false;
+		} else if (!ownerEmail.equals(other.ownerEmail))
+			return false;
+		if (ownerId == null) {
+			if (other.ownerId != null)
+				return false;
+		} else if (!ownerId.equals(other.ownerId))
+			return false;
+		if (ownerName == null) {
+			if (other.ownerName != null)
+				return false;
+		} else if (!ownerName.equals(other.ownerName))
+			return false;
+		if (title == null) {
+			if (other.title != null)
+				return false;
+		} else if (!title.equals(other.title))
+			return false;
+		if (vertScrollState == null) {
+			if (other.vertScrollState != null)
+				return false;
+		} else if (!vertScrollState.equals(other.vertScrollState))
+			return false;
+		if (windowBottom == null) {
+			if (other.windowBottom != null)
+				return false;
+		} else if (!windowBottom.equals(other.windowBottom))
+			return false;
+		if (windowLeft == null) {
+			if (other.windowLeft != null)
+				return false;
+		} else if (!windowLeft.equals(other.windowLeft))
+			return false;
+		if (windowRight == null) {
+			if (other.windowRight != null)
+				return false;
+		} else if (!windowRight.equals(other.windowRight))
+			return false;
+		if (windowTop == null) {
+			if (other.windowTop != null)
+				return false;
+		} else if (!windowTop.equals(other.windowTop))
+			return false;
+		return true;
 	}
 
 }
