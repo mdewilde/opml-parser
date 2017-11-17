@@ -31,6 +31,7 @@ import be.ceau.opml.entity.Body;
 import be.ceau.opml.entity.Head;
 import be.ceau.opml.entity.Opml;
 import be.ceau.opml.entity.Outline;
+import nl.jqno.equalsverifier.EqualsVerifier;
 
 public class ModelTest {
 
@@ -243,6 +244,39 @@ public class ModelTest {
 	@Test
 	public void opmlParseException() {
 		new OpmlParseException(new Throwable());
+	}
+
+	@Test
+	public void opmlEquals() {
+		EqualsVerifier.forClass(Opml.class)
+				.withPrefabValues(Outline.class, newOutline(), newOutline2())
+				.usingGetClass()
+				.verify();
+	}
+
+	@Test
+	public void headEquals() {
+		EqualsVerifier.forClass(Head.class)
+				.withPrefabValues(Outline.class, newOutline(), newOutline2())
+				.usingGetClass()
+				.verify();
+	}
+
+	@Test
+	public void bodyEquals() {
+		EqualsVerifier.forClass(Body.class)
+				.withPrefabValues(Outline.class, newOutline(), newOutline2())
+				.usingGetClass()
+				.verify();
+	}
+
+	@Test
+	public void outlineEquals() {
+		EqualsVerifier.forClass(Outline.class)
+				.usingGetClass()
+				.withPrefabValues(Outline.class, newOutline(), newOutline2())
+				.usingGetClass()
+				.verify();
 	}
 
 }

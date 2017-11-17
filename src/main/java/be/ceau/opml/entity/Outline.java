@@ -35,7 +35,7 @@ import be.ceau.opml.ValidityCheck;
  * Instances are unmodifiable and threadsafe.
  * </p>
  */
-public final class Outline implements Serializable {
+public class Outline implements Serializable {
 
 	private static final long serialVersionUID = 1510395943061L;
 
@@ -128,8 +128,8 @@ public final class Outline implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + attributes.hashCode();
-		result = prime * result + subElements.hashCode();
+		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
+		result = prime * result + ((subElements == null) ? 0 : subElements.hashCode());
 		return result;
 	}
 
@@ -142,9 +142,15 @@ public final class Outline implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Outline other = (Outline) obj;
-		if (!attributes.equals(other.attributes))
+		if (attributes == null) {
+			if (other.attributes != null)
+				return false;
+		} else if (!attributes.equals(other.attributes))
 			return false;
-		if (!subElements.equals(other.subElements))
+		if (subElements == null) {
+			if (other.subElements != null)
+				return false;
+		} else if (!subElements.equals(other.subElements))
 			return false;
 		return true;
 	}
