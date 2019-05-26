@@ -46,10 +46,10 @@ public class Outline implements Serializable {
 	/**
 	 * @param attributes
 	 *            a {@link Map}, can not be {@code null}, can not contain {@code null} or blank {@link String} as key
-	 * @param subElements
+	 * @param subElements 
 	 *            a {@link List}, can not be {@code null}
 	 * @throws IllegalArgumentException
-	 * 
+	 *            if either argument {@code null} or if {@code attributes} contains a blank key
 	 */
 	public Outline(Map<String, String> attributes, List<Outline> subElements) {
 		if (attributes == null) {
