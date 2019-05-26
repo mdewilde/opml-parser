@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	Copyright 2019 Marceau Dewilde <m@ceau.be>
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Contains the content of the outline. Must have at least one outline element.
@@ -67,10 +68,7 @@ public class Body implements Serializable {
 
 	@Override
 	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((outlines == null) ? 0 : outlines.hashCode());
-		return result;
+		return 31 + Objects.hashCode(outlines);
 	}
 
 	@Override
@@ -82,12 +80,7 @@ public class Body implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Body other = (Body) obj;
-		if (outlines == null) {
-			if (other.outlines != null)
-				return false;
-		} else if (!outlines.equals(other.outlines))
-			return false;
-		return true;
+		return Objects.equals(outlines, other.outlines);
 	}
 
 }

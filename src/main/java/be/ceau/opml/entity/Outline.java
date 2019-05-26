@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	Copyright 2019 Marceau Dewilde <m@ceau.be>
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 
 import be.ceau.opml.ValidityCheck;
 
@@ -128,8 +129,8 @@ public class Outline implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((attributes == null) ? 0 : attributes.hashCode());
-		result = prime * result + ((subElements == null) ? 0 : subElements.hashCode());
+		result = prime * result + Objects.hashCode(attributes);
+		result = prime * result + Objects.hashCode(subElements);
 		return result;
 	}
 
@@ -142,17 +143,7 @@ public class Outline implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Outline other = (Outline) obj;
-		if (attributes == null) {
-			if (other.attributes != null)
-				return false;
-		} else if (!attributes.equals(other.attributes))
-			return false;
-		if (subElements == null) {
-			if (other.subElements != null)
-				return false;
-		} else if (!subElements.equals(other.subElements))
-			return false;
-		return true;
+		return Objects.equals(attributes, other.attributes) && Objects.equals(subElements, other.subElements);
 	}
 
 	@Override

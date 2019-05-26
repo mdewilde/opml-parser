@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	Copyright 2019 Marceau Dewilde <m@ceau.be>
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 package be.ceau.opml.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * <p>
@@ -93,9 +94,9 @@ public class Opml implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((body == null) ? 0 : body.hashCode());
-		result = prime * result + ((head == null) ? 0 : head.hashCode());
-		result = prime * result + ((version == null) ? 0 : version.hashCode());
+		result = prime * result + Objects.hashCode(body);
+		result = prime * result + Objects.hashCode(head);
+		result = prime * result + Objects.hashCode(version);
 		return result;
 	}
 
@@ -108,22 +109,7 @@ public class Opml implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Opml other = (Opml) obj;
-		if (body == null) {
-			if (other.body != null)
-				return false;
-		} else if (!body.equals(other.body))
-			return false;
-		if (head == null) {
-			if (other.head != null)
-				return false;
-		} else if (!head.equals(other.head))
-			return false;
-		if (version == null) {
-			if (other.version != null)
-				return false;
-		} else if (!version.equals(other.version))
-			return false;
-		return true;
+		return Objects.equals(body,  other.body) && Objects.equals(head, other.head) && Objects.equals(version, other.version);
 	}
 
 }

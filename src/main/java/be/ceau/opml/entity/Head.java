@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	Copyright 2019 Marceau Dewilde <m@ceau.be>
 	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
@@ -18,6 +18,7 @@ package be.ceau.opml.entity;
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Metadata of the OPML feed. A {@code <head>} contains zero or more optional elements.
@@ -263,19 +264,19 @@ public class Head implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((dateCreated == null) ? 0 : dateCreated.hashCode());
-		result = prime * result + ((dateModified == null) ? 0 : dateModified.hashCode());
-		result = prime * result + ((docs == null) ? 0 : docs.hashCode());
-		result = prime * result + ((expansionState == null) ? 0 : expansionState.hashCode());
-		result = prime * result + ((ownerEmail == null) ? 0 : ownerEmail.hashCode());
-		result = prime * result + ((ownerId == null) ? 0 : ownerId.hashCode());
-		result = prime * result + ((ownerName == null) ? 0 : ownerName.hashCode());
-		result = prime * result + ((title == null) ? 0 : title.hashCode());
-		result = prime * result + ((vertScrollState == null) ? 0 : vertScrollState.hashCode());
-		result = prime * result + ((windowBottom == null) ? 0 : windowBottom.hashCode());
-		result = prime * result + ((windowLeft == null) ? 0 : windowLeft.hashCode());
-		result = prime * result + ((windowRight == null) ? 0 : windowRight.hashCode());
-		result = prime * result + ((windowTop == null) ? 0 : windowTop.hashCode());
+		result = prime * result + Objects.hashCode(dateCreated);
+		result = prime * result + Objects.hashCode(dateModified);
+		result = prime * result + Objects.hashCode(docs);
+		result = prime * result + Objects.hashCode(expansionState);
+		result = prime * result + Objects.hashCode(ownerEmail);
+		result = prime * result + Objects.hashCode(ownerId);
+		result = prime * result + Objects.hashCode(ownerName);
+		result = prime * result + Objects.hashCode(title);
+		result = prime * result + Objects.hashCode(vertScrollState);
+		result = prime * result + Objects.hashCode(windowBottom);
+		result = prime * result + Objects.hashCode(windowLeft);
+		result = prime * result + Objects.hashCode(windowRight);
+		result = prime * result + Objects.hashCode(windowTop);
 		return result;
 	}
 
@@ -288,71 +289,45 @@ public class Head implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Head other = (Head) obj;
-		if (dateCreated == null) {
-			if (other.dateCreated != null)
-				return false;
-		} else if (!dateCreated.equals(other.dateCreated))
+		if (!Objects.equals(dateCreated, other.dateCreated)) {
 			return false;
-		if (dateModified == null) {
-			if (other.dateModified != null)
-				return false;
-		} else if (!dateModified.equals(other.dateModified))
+		}
+		if (!Objects.equals(dateModified, other.dateModified)) {
 			return false;
-		if (docs == null) {
-			if (other.docs != null)
-				return false;
-		} else if (!docs.equals(other.docs))
+		}
+		if (!Objects.equals(docs, other.docs)) {
 			return false;
-		if (expansionState == null) {
-			if (other.expansionState != null)
-				return false;
-		} else if (!expansionState.equals(other.expansionState))
+		}
+		if (!Objects.equals(expansionState, other.expansionState)) {
 			return false;
-		if (ownerEmail == null) {
-			if (other.ownerEmail != null)
-				return false;
-		} else if (!ownerEmail.equals(other.ownerEmail))
+		}
+		if (!Objects.equals(ownerEmail, other.ownerEmail)) {
 			return false;
-		if (ownerId == null) {
-			if (other.ownerId != null)
-				return false;
-		} else if (!ownerId.equals(other.ownerId))
+		}
+		if (!Objects.equals(ownerId, other.ownerId)) {
 			return false;
-		if (ownerName == null) {
-			if (other.ownerName != null)
-				return false;
-		} else if (!ownerName.equals(other.ownerName))
+		}
+		if (!Objects.equals(ownerName, other.ownerName)) {
 			return false;
-		if (title == null) {
-			if (other.title != null)
-				return false;
-		} else if (!title.equals(other.title))
+		}
+		if (!Objects.equals(title, other.title)) {
 			return false;
-		if (vertScrollState == null) {
-			if (other.vertScrollState != null)
-				return false;
-		} else if (!vertScrollState.equals(other.vertScrollState))
+		}
+		if (!Objects.equals(vertScrollState, other.vertScrollState)) {
 			return false;
-		if (windowBottom == null) {
-			if (other.windowBottom != null)
-				return false;
-		} else if (!windowBottom.equals(other.windowBottom))
+		}
+		if (!Objects.equals(windowBottom, other.windowBottom)) {
 			return false;
-		if (windowLeft == null) {
-			if (other.windowLeft != null)
-				return false;
-		} else if (!windowLeft.equals(other.windowLeft))
+		}
+		if (!Objects.equals(windowLeft, other.windowLeft)) {
 			return false;
-		if (windowRight == null) {
-			if (other.windowRight != null)
-				return false;
-		} else if (!windowRight.equals(other.windowRight))
+		}
+		if (!Objects.equals(windowRight, other.windowRight)) {
 			return false;
-		if (windowTop == null) {
-			if (other.windowTop != null)
-				return false;
-		} else if (!windowTop.equals(other.windowTop))
+		}
+		if (!Objects.equals(windowTop, other.windowTop)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 Marceau Dewilde <m@ceau.be>
+	Copyright 2019 Marceau Dewilde <m@ceau.be>
 	
 	Licensed under the Apache License, Version 2.0 (the "License"));
 	you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ public class DigitalPodcastTest {
 		Assert.assertEquals("1.1", opml.getVersion());
 		Assert.assertEquals("Digital Podcast 50 Top Rated Listings", opml.getHead().getTitle());
 		Assert.assertEquals("Tue, 05 Feb 2005 13:55:28 GMT", opml.getHead().getDateCreated());
-		Assert.assertEquals("Sun, 23 Jul 2017 17:31:17 EDT", opml.getHead().getDateModified());
+		Assert.assertEquals("Sun, 23 Jul 2019 17:31:17 EDT", opml.getHead().getDateModified());
 		Assert.assertTrue(opml.getHead().getExpansionState().isEmpty());
 		Assert.assertTrue(1 == opml.getHead().getVertScrollState());
 		Assert.assertTrue(20 == opml.getHead().getWindowTop());
