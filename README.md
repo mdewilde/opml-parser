@@ -24,7 +24,7 @@ String xml = new OpmlWriter().write(opml);
 ```
 
 ### Requirements
-This library requires Java 7 or higher.
+This library requires Java 8 or higher.
 
 ### Maven Central
 Include this project directly from Maven Central
