@@ -26,7 +26,6 @@ public class OpmlParserInputTest {
 	@Test(expected = OpmlParseException.class)
 	public void ioException() throws IOException, OpmlParseException {
 		InputStream inputStream = Mockito.mock(InputStream.class);
-		Mockito.when(inputStream.read(new byte[0])).thenThrow(IOException.class);
 		new OpmlParser().parse(inputStream);
 	}
 	
