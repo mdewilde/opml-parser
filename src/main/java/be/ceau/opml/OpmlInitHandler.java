@@ -13,31 +13,73 @@
 */
 package be.ceau.opml;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
+
 import org.xmlpull.v1.XmlPullParser;
 
+/**
+ * {@link OpmlSectionHandler} that deals with the {@code opml} tag
+ */
 final class OpmlInitHandler implements OpmlSectionHandler<String> {
 
-	private boolean started = false;;
+	private final Deque<String> stack = new ArrayDeque<>();
+
+	private boolean started = false;
 	private String version;
 
 	@Override
 	public void startTag(XmlPullParser xpp) throws OpmlParseException {
-		ValidityCheck.require(xpp, XmlPullParser.START_TAG, "opml");
-		version = xpp.getAttributeValue(null, "version");
-		if (version == null) {
-			throw new OpmlParseException("opml element does not have required attribute version");
+		ValidityCheck.requirePosition(xpp, XmlPullParser.START_TAG);
+		switch (xpp.getName()) {
+		case "opml":
+			if (started) {
+				throw new OpmlParseException("an opml document can not have multiple <opml> elements");
+			}
+			version = xpp.getAttributeValue(null, "version");
+			if (version == null) {
+				throw new OpmlParseException("opml element does not have required attribute version");
+			}
+			started = true;
+			stack.push(xpp.getName());
+			break;
+		default:
+			// An OPML file may contain elements and attributes not described on this page,
+			// only if those elements are defined in a namespace, as specified by the W3C.
+			// http://opml.org/spec2.opml#1629042982000
+			if (ValidityCheck.isTextBlank(xpp.getNamespace())) {
+				throw new OpmlParseException(String.format("encountered non-namespaced element <%s> instead of <opml>", xpp.getName()));
+			}
+			stack.push(xpp.getNamespace() + ":" + xpp.getName());
+			break;
 		}
-		started = true;
 	}
 
 	@Override
 	public void text(XmlPullParser xpp) throws OpmlParseException {
-		ValidityCheck.requireNoText(xpp, "opml", started);
+		if (stack.isEmpty()) {
+			ValidityCheck.requireNoText(xpp, "opml", started);
+		} else {
+			switch (stack.peek()) {
+			case "opml":
+				ValidityCheck.requireNoText(xpp, "opml", started);
+				break;
+			default:
+				// no strict rules regarding text in properly namespaced custom elements
+				break;
+			}
+		}
 	}
 
 	@Override
 	public void endTag(XmlPullParser xpp) throws OpmlParseException {
-		started = false;
+		switch (stack.peek()) {
+		case "opml":
+			started = false;
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override

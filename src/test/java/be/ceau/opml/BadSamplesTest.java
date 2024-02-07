@@ -1,6 +1,4 @@
 /*
-	Copyright 2020 Marceau Dewilde <m@ceau.be>
-	
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
@@ -36,152 +34,112 @@ public class BadSamplesTest {
 		new OpmlParser().parse("");
 	}
 
-	@Test
-	public void badsample01() throws IOException {
-		try (Reader reader = read("badsample01.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().startsWith("required element <opml> but found"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badTagInHead() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badTagInHead.opml", "encountered non-namespaced element");
 	}
 
-	@Test
-	public void badsample02() throws IOException {
-		try (Reader reader = read("badsample02.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().startsWith("XML invalid, unclosed tags"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void doubleTagInHead() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("doubleTagInHead.opml", "more than once inside <head>");
 	}
 
-	@Test
-	public void badsample03() throws IOException {
-		try (Reader reader = read("badsample03.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().startsWith("vertScrollState must be a number"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample01() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample01.opml", "encountered non-namespaced element");
 	}
 
-	@Test
-	public void badsample04() throws IOException {
-		try (Reader reader = read("badsample04.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().startsWith("head section contains nested element"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample02() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample02.opml", "XML invalid, unclosed tags");
 	}
 
-	@Test
-	public void badsample05() throws IOException {
-		try (Reader reader = read("badsample05.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().startsWith("text inside element <opml>"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample03() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample03.opml", "vertScrollState must be a number");
 	}
 
-	@Test
-	public void badsample06() throws IOException {
-		try (Reader reader = read("badsample06.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("more than once"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample04() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample04.opml", "head section contains nested element");
 	}
 
-	@Test
-	public void badsample07() throws IOException {
-		try (Reader reader = read("badsample07.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("opml element does not have required attribute version"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample05() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample05.opml", "text inside element <opml>");
 	}
 
-	@Test
-	public void badsample08() throws IOException {
-		try (Reader reader = read("badsample08.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("OPML documents can have only one head section"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample06() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample06.opml", "more than once");
 	}
 
-	@Test
-	public void badsample9() throws IOException {
-		try (Reader reader = read("badsample09.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("OPML documents can have only one body section"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample07() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample07.opml", "opml element does not have required attribute version");
 	}
 
-	@Test
-	public void badsample10() throws IOException {
-		try (Reader reader = read("badsample10.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("XML invalid, no <head> element"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample08() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample08.opml", "OPML documents can have only one head section");
 	}
 
-	@Test
-	public void badsample11() throws IOException {
-		try (Reader reader = read("badsample11.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("XML invalid, no <body> element"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample9() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample09.opml", "OPML documents can have only one body section");
 	}
 
-	@Test
-	public void badsample12() throws IOException {
-		try (Reader reader = read("badsample12.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("expansionState must be a comma-separated list of line numbers"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample10() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample10.opml", "XML invalid, no <head> element");
 	}
 
-	@Test
-	public void badsample13() throws IOException {
-		try (Reader reader = read("badsample13.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("windowBottom must be a number"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample11() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample11.opml", "XML invalid, no <body> element");
 	}
 
-	@Test
-	public void badsample14() throws IOException {
-		try (Reader reader = read("badsample14.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("windowLeft must be a number"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample12() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample12.opml", "expansionState must be a comma-separated list of line numbers");
 	}
 
-	@Test
-	public void badsample15() throws IOException {
-		try (Reader reader = read("badsample15.opml")) {
-			new OpmlParser().parse(reader);
-		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("windowRight must be a number"));
-		}
+	@Test(expected = OpmlParseException.class)
+	public void badsample13() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample13.opml", "windowBottom must be a number");
 	}
 
-	@Test
-	public void badsample16() throws IOException {
-		try (Reader reader = read("badsample16.opml")) {
+	@Test(expected = OpmlParseException.class)
+	public void badsample14() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample14.opml", "windowLeft must be a number");
+	}
+
+	@Test(expected = OpmlParseException.class)
+	public void badsample15() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample15.opml", "windowRight must be a number");
+	}
+
+	@Test(expected = OpmlParseException.class)
+	public void badsample16() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample16.opml", "windowTop must be a number");
+	}
+
+	@Test(expected = OpmlParseException.class)
+	public void badsample17() throws IOException, OpmlParseException {
+		assertExceptionWithMessage("badsample17.opml", "text inside element");
+	}
+
+	private void assertExceptionWithMessage(String opmlFileName, String message) throws IOException, OpmlParseException {
+		try (Reader reader = read(opmlFileName)) {
 			new OpmlParser().parse(reader);
 		} catch (OpmlParseException e) {
-			Assert.assertTrue(e.getMessage().contains("windowTop must be a number"));
+			Assert.assertTrue(e.getMessage().contains(message));
+			throw e;
 		}
 	}
 
 	private Reader read(String filename) throws FileNotFoundException {
 		return new FileReader(getClass().getResource("/" + filename).getPath());
 	}
-	
+
 }

@@ -32,7 +32,7 @@ public class ValidityCheck {
 			throw new OpmlParseException(e);
 		}
 	}
-	
+
 	static void requireName(XmlPullParser xpp, String name) throws OpmlParseException {
 		if (!xpp.getName().equals(name)) {
 			throw new OpmlParseException(String.format("required element <%s> but found <%s>", name, xpp.getName()));
@@ -43,9 +43,8 @@ public class ValidityCheck {
 		if (!isTextBlank(xpp)) {
 			if (insideElement) {
 				throw new OpmlParseException(String.format("text inside element <%s>: \"%s\"", elementName, xpp.getText()));
-			} else {
-				throw new OpmlParseException(String.format("required element <%s> but found text: \"%s\"", elementName, xpp.getText()));
 			}
+			throw new OpmlParseException(String.format("required element <%s> but found text: \"%s\"", elementName, xpp.getText()));
 		}
 	}
 
@@ -55,31 +54,31 @@ public class ValidityCheck {
 
 	public static boolean isTextBlank(String str) {
 		// adapted from Apache commons-lang StringUtils#isBlank(String)
-        // licensed under Apache Software License 2.0
+		// licensed under Apache Software License 2.0
 		int strLen;
-        if (str == null || (strLen = str.length()) == 0) {
-            return true;
-        }
-        for (int i = 0; i < strLen; i++) {
-            if ((Character.isWhitespace(str.charAt(i)) == false)) {
-                return false;
-            }
-        }
-        return true;
+		if (str == null || (strLen = str.length()) == 0) {
+			return true;
+		}
+		for (int i = 0; i < strLen; i++) {
+			if ((Character.isWhitespace(str.charAt(i)) == false)) {
+				return false;
+			}
+		}
+		return true;
 	}
-	
+
 	static String translate(int position) {
 		switch (position) {
-			case XmlPullParser.START_DOCUMENT : 
-				return "START_DOCUMENT";
-			case XmlPullParser.START_TAG : 
-				return "START_TAG";
-			case XmlPullParser.TEXT : 
-				return "TEXT";
-			case XmlPullParser.END_TAG : 
-				return "END_TAG";
-			case XmlPullParser.END_DOCUMENT : 
-				return "END_DOCUMENT";
+		case XmlPullParser.START_DOCUMENT:
+			return "START_DOCUMENT";
+		case XmlPullParser.START_TAG:
+			return "START_TAG";
+		case XmlPullParser.TEXT:
+			return "TEXT";
+		case XmlPullParser.END_TAG:
+			return "END_TAG";
+		case XmlPullParser.END_DOCUMENT:
+			return "END_DOCUMENT";
 		}
 		return String.valueOf(position);
 	}

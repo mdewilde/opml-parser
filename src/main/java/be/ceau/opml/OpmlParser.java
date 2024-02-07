@@ -36,13 +36,11 @@ public class OpmlParser {
 	/**
 	 * Parse the given {@link String} into an {@link Opml} instance
 	 * 
-	 * @param string
-	 *            a {@link String} representation of a full and valid OPML document
+	 * @param string a {@link String} representation of a full and valid OPML
+	 *               document
 	 * @return {@link Opml} instance, not {@code null}
-	 * @throws IllegalArgumentException
-	 *             if argument is {@code null} or invalid
-	 * @throws OpmlParseException
-	 *             if an exception occurs during parsing
+	 * @throws IllegalArgumentException if argument is {@code null} or invalid
+	 * @throws OpmlParseException       if an exception occurs during parsing
 	 */
 	public Opml parse(String string) throws OpmlParseException {
 		if (string == null || string.trim().isEmpty()) {
@@ -56,16 +54,14 @@ public class OpmlParser {
 	}
 
 	/**
-	 * Parse the given {@link InputStream} into an {@link Opml} instance. Note that the caller is responsible for
-	 * closing the given {@link InputStream}.
+	 * Parse the given {@link InputStream} into an {@link Opml} instance. Note that
+	 * the caller is responsible for closing the given {@link InputStream}.
 	 * 
-	 * @param input
-	 *            an {@link InputStream} over a valid OPML document
+	 * @param input an {@link InputStream} over a valid OPML document
 	 * @return {@link Opml} instance, not {@code null}
-	 * @throws IllegalArgumentException
-	 *             if argument is {@code null}
-	 * @throws OpmlParseException
-	 *             if argument invalid or if an exception occurs during parsing
+	 * @throws IllegalArgumentException if argument is {@code null}
+	 * @throws OpmlParseException       if argument invalid or if an exception
+	 *                                  occurs during parsing
 	 */
 	public Opml parse(InputStream input) throws OpmlParseException {
 		if (input == null) {
@@ -79,16 +75,14 @@ public class OpmlParser {
 	}
 
 	/**
-	 * Parse the given {@link Reader} into an {@link Opml} instance. Note that the caller is responsible for closing the
-	 * given {@link Reader}.
+	 * Parse the given {@link Reader} into an {@link Opml} instance. Note that the
+	 * caller is responsible for closing the given {@link Reader}.
 	 * 
-	 * @param reader
-	 *            a {@link Reader} over a valid OPML document
+	 * @param reader a {@link Reader} over a valid OPML document
 	 * @return {@link Opml} instance, not {@code null}
-	 * @throws IllegalArgumentException
-	 *             if argument is {@code null}
-	 * @throws OpmlParseException
-	 *             if argument invalid or if an exception occurs during parsing
+	 * @throws IllegalArgumentException if argument is {@code null}
+	 * @throws OpmlParseException       if argument invalid or if an exception
+	 *                                  occurs during parsing
 	 */
 	public Opml parse(Reader reader) throws OpmlParseException {
 		if (reader == null) {
@@ -119,71 +113,82 @@ public class OpmlParser {
 		while (xpp.getEventType() != XmlPullParser.END_DOCUMENT) {
 
 			switch (xpp.next()) {
-				case XmlPullParser.START_TAG: {
-					final String name = xpp.getName();
-					stack.push(name);
-					switch (name) {
-						case "head": {
-							if (startedHead) {
-								throw new OpmlParseException("OPML documents can have only one head section");
-							}
-							handler = headHandler;
-							startedHead = true;
-							break;
-						}
-						case "body": {
-							if (startedBody) {
-								throw new OpmlParseException("OPML documents can have only one body section");
-							}
-							handler = bodyHandler;
-							startedBody = true;
-							break;
-						}
-						default: {
-							handler.startTag(xpp);
-							startedOpml = true;
-							break;
-						}
+			case XmlPullParser.START_TAG: {
+				final String name = xpp.getName();
+				stack.push(name);
+				switch (name) {
+				case "opml": {
+					if (startedOpml) {
+						throw new OpmlParseException("OPML documents can have only one opml section");
 					}
-					ValidityCheck.requirePosition(xpp, XmlPullParser.START_TAG);
+					handler.startTag(xpp);
+					startedOpml = true;
 					break;
 				}
-				case XmlPullParser.TEXT: {
-					handler.text(xpp);
-					ValidityCheck.requirePosition(xpp, XmlPullParser.TEXT);
-					break;
-				}
-				case XmlPullParser.END_TAG: {
-					String ended = xpp.getName();
-					stack.pop();
-					switch (ended) {
-						case "head":
-							handler.endTag(xpp);
-							handler = initHandler;
-							break;
-						case "body":
-							handler.endTag(xpp);
-							handler = initHandler;
-							break;
-						default: {
-							handler.endTag(xpp);
-							break;
-						}
+				case "head": {
+					if (startedHead) {
+						throw new OpmlParseException("OPML documents can have only one head section");
 					}
-					ValidityCheck.requirePosition(xpp, XmlPullParser.END_TAG);
+					handler = headHandler;
+					startedHead = true;
 					break;
 				}
+				case "body": {
+					if (startedBody) {
+						throw new OpmlParseException("OPML documents can have only one body section");
+					}
+					handler = bodyHandler;
+					handler.startTag(xpp);
+					startedBody = true;
+					break;
+				}
+				default: {
+					handler.startTag(xpp);
+					break;
+				}
+				}
+				ValidityCheck.requirePosition(xpp, XmlPullParser.START_TAG);
+				break;
+			}
+			case XmlPullParser.TEXT: {
+				handler.text(xpp);
+				ValidityCheck.requirePosition(xpp, XmlPullParser.TEXT);
+				break;
+			}
+			case XmlPullParser.END_TAG: {
+				String ended = xpp.getName();
+				stack.pop();
+				switch (ended) {
+				case "head":
+					handler.endTag(xpp);
+					handler = initHandler;
+					break;
+				case "body":
+					handler.endTag(xpp);
+					handler = initHandler;
+					break;
+				default: {
+					handler.endTag(xpp);
+					break;
+				}
+				}
+				ValidityCheck.requirePosition(xpp, XmlPullParser.END_TAG);
+				break;
+			}
 			}
 
 		}
 
 		if (!stack.isEmpty()) {
 			throw new OpmlParseException(String.format("XML invalid, unclosed tags %s", stack));
-		} else if (!startedOpml) {
+		}
+		if (!startedOpml) {
 			throw new OpmlParseException("XML invalid, no <opml> element");
-		} else if (!startedHead) {
+		}
+		if (!startedHead) {
 			throw new OpmlParseException("XML invalid, no <head> element");
-		} else if (!startedBody) {
+		}
+		if (!startedBody) {
 			throw new OpmlParseException("XML invalid, no <body> element");
 		}
 

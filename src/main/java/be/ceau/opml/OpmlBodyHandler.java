@@ -25,47 +25,92 @@ import org.xmlpull.v1.XmlPullParser;
 import be.ceau.opml.entity.Body;
 import be.ceau.opml.entity.Outline;
 
+/**
+ * {@link OpmlSectionHandler} that deals with the {@code body} tag
+ */
 final class OpmlBodyHandler implements OpmlSectionHandler<Body> {
 
-	private final Deque<OutlineBuilder> stack = new ArrayDeque<>();
+	private final Deque<OutlineBuilder> outlineBuilderStack = new ArrayDeque<>();
+	private final Deque<String> elementStack = new ArrayDeque<>();
 
 	private final List<OutlineBuilder> outlineBuilders = new ArrayList<>();
 
-	private boolean started = false;
-	
 	@Override
 	public void startTag(XmlPullParser xpp) throws OpmlParseException {
-		ValidityCheck.require(xpp, XmlPullParser.START_TAG, "outline");
-		
-		OutlineBuilder outlineBuilder = parseOutlineBuilder(xpp);
-		if (stack.isEmpty()) {
-			// this outline is a child of <body>
-			outlineBuilders.add(outlineBuilder);
-		} else {
-			// this outline is nested in a different <outline>
-			stack.peek().subElements.add(outlineBuilder);
+		ValidityCheck.requirePosition(xpp, XmlPullParser.START_TAG);
+
+		switch (xpp.getName()) {
+		case "body":
+			// no special action required
+			break;
+		case "outline":
+			OutlineBuilder outlineBuilder = parseOutlineBuilder(xpp);
+			if (outlineBuilderStack.isEmpty()) {
+				// this outline is a child of <body>
+				outlineBuilders.add(outlineBuilder);
+			} else {
+				// this outline is nested in a different <outline>
+				outlineBuilderStack.peek().subElements.add(outlineBuilder);
+			}
+			outlineBuilderStack.push(outlineBuilder);
+			break;
+		default:
+			// An OPML file may contain elements and attributes not described on this page,
+			// only if those elements are defined in a namespace, as specified by the W3C.
+			// http://opml.org/spec2.opml#1629042982000
+			if (ValidityCheck.isTextBlank(xpp.getNamespace())) {
+				throw new OpmlParseException(String.format("encountered non-namespaced element <%s> instead of <outline>", xpp.getName()));
+			}
+			break;
 		}
 
-		stack.push(outlineBuilder);
+		elementStack.push(xpp.getName());
 
-		started = true;
-		
 	}
 
 	@Override
 	public void text(XmlPullParser xpp) throws OpmlParseException {
-		ValidityCheck.requireNoText(xpp, stack.isEmpty() ? "body" : "outline", started);
+		switch (elementStack.getFirst()) {
+		case "outline":
+		case "body":
+			ValidityCheck.requireNoText(xpp, elementStack.getFirst(), true);
+			break;
+		default:
+			// valid custom elements are allowed to have text
+			// if it is on our elementStack here, it is valid
+			break;
+		}
 	}
 
 	@Override
 	public void endTag(XmlPullParser xpp) throws OpmlParseException {
-		if (!stack.isEmpty()) {
-			stack.pop();
-			ValidityCheck.require(xpp, XmlPullParser.END_TAG, "outline");
-		} else {
-			ValidityCheck.require(xpp, XmlPullParser.END_TAG, "body");
+		ValidityCheck.requirePosition(xpp, XmlPullParser.END_TAG);
+
+		String closed = elementStack.pop();
+
+		if (!xpp.getName().equals(closed)) {
+			throw new OpmlParseException(String.format("required element <%s> but found <%s>", closed, xpp.getName()));
 		}
-		started = false;
+
+		switch (xpp.getName()) {
+		case "outline":
+			if (outlineBuilderStack.isEmpty()) {
+				throw new OpmlParseException("invalid nesting of outline elements");
+			}
+			outlineBuilderStack.pop();
+			break;
+		case "body":
+			if (!outlineBuilderStack.isEmpty()) {
+				throw new OpmlParseException("unclosed outline element(s)");
+			}
+			break;
+		default:
+			if (ValidityCheck.isTextBlank(xpp.getNamespace())) {
+				throw new OpmlParseException(String.format("encountered non-namespaced element <%s> instead of <outline> or <body>", xpp.getName()));
+			}
+			break;
+		}
+
 	}
 
 	@Override
@@ -84,7 +129,7 @@ final class OpmlBodyHandler implements OpmlSectionHandler<Body> {
 		}
 		return new Outline(builder.attributes, subElements);
 	}
-	
+
 	private OutlineBuilder parseOutlineBuilder(XmlPullParser xpp) throws OpmlParseException {
 		final OutlineBuilder outlineBuilder = new OutlineBuilder();
 		for (int i = 0; i < xpp.getAttributeCount(); i++) {

@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<opml version="1.1">
+	<head>
+		<title>Bad Tag In Head Test OPML</title>
+		<unknown>Parsing should fail here</unknown>
+	</head>
+	<body>
+		<outline text="Simple text attribute" />
+	</body>
+</opml>

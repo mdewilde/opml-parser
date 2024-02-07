@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.1" xmlns:feeder="https://nononsenseapps.com/feeder">
+  <head>
+    <title>
+      Feeder
+    </title>
+  </head>
+  <body>
+    <outline title="News" text="News">
+      <outline feeder:notify="false" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="Decohack" text="Decohack" type="rss" xmlUrl="https://www.decohack.com/feed"/>
+    </outline>
+    <outline title="Default" text="Default">
+      <outline feeder:notify="false" feeder:imageUrl="https://fasterthanli.me/img/logo-square.png" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="fasterthanli.me" text="fasterthanli.me" type="rss" xmlUrl="https://fasterthanli.me/index.xml"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://moonvy.com/ow-image.png" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="Moonvy" text="Moonvy" type="rss" xmlUrl="https://moonvy.com/blog/rss.xml"/>
+      <outline feeder:notify="false" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="Material.io - Material Design" text="Material.io - Material Design" type="rss" xmlUrl="https://material.io/feed.xml"/>
+      <outline feeder:notify="false" feeder:imageUrl="https://static.cnbetacdn.com/logo.png" feeder:fullTextByDefault="false" feeder:openArticlesWith="" feeder:alternateId="false" title="cnBeta" text="cnBeta" type="rss" xmlUrl="http://www.cnbeta.com/backend.php"/>
+    </outline>
+  </body>
+    <feeder:settings>
+      <feeder:setting key="pref_swipe_as_read" value="ONLY_FROM_END"/>
+      <feeder:setting key="pref_added_feeder_news" value="true"/>
+      <feeder:setting key="pref_added_feeder_news">test</feeder:setting>
+    </feeder:settings>
+</opml>
